@@ -59,7 +59,7 @@ function printContacts(place, num) {
     let request = { placeId: place.place_id };
     service.getDetails(request, function(details, status) {
       if (details !== null) {
-        console.log(details);
+        //console.log(details);
         imageURL = typeof details.photos !== 'undefined' 
          ? details.photos[0].getUrl({'maxWidth': 1024, 'maxHeight': 1024})
          : 'https://images.pexels.com/photos/374101/pexels-photo-374101.jpeg';
@@ -182,16 +182,12 @@ function printContacts(place, num) {
 
             if (details.reviews !== undefined) {
               mapObj.commentfeed = [];
-              mapObj.commentfeed.push({});
-              mapObj.commentfeed[0]['text'] = details.reviews["1"].text;
-              mapObj.commentfeed[0]['rating'] = details.reviews["1"].rating;
-              mapObj.commentfeed[0]['usernamefeed'] = details.reviews["1"].author_name;
-              //if (details.reviews !== undefined) {
+              for (var i = 0; i < details.reviews.length - 1; i++) {
                 mapObj.commentfeed.push({});
-                mapObj.commentfeed[1]['text'] = details.reviews["2"].text;
-                mapObj.commentfeed[1]['rating'] = details.reviews["2"].rating;
-                mapObj.commentfeed[1]['usernamefeed'] = details.reviews["2"].author_name;
-              //}
+                mapObj.commentfeed[i]['text'] = details.reviews[i + 1].text;
+                mapObj.commentfeed[i]['rating'] = details.reviews[i + 1].rating;
+                mapObj.commentfeed[i]['usernamefeed'] = details.reviews[i + 1].author_name;  
+              }
             } else {
               mapObj.commentfeed = [];
               mapObj.commentfeed.push({});
