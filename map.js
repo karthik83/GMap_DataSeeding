@@ -8,7 +8,10 @@ function initMap() {
   //let pyrmont = {lat: -33.867, lng: 151.195}; //Default
   //let pyrmont = {lat: 13.08268, lng:  80.270718}; //Chennai, India
   //let pyrmont = {lat: 43.653226, lng:  -79.383184}; //Toronto, ON
-  let pyrmont = {lat: 43.588864, lng:  -79.660531}; //Missisauga, ON
+  let pyrmont = {
+    lat: 43.588864,
+    lng: -79.660531
+  }; //Missisauga, ON
   //let pyrmont = {lat: 43.8509, lng:  -79.0204};//Ajax
   //let pyrmont = {lat: 43.998550, lng:  -79.678200};//Clarington
   //let pyrmont = {lat: 44.280450, lng:  -79.109160};//Brock
@@ -45,7 +48,7 @@ function createMarker(place) {
     position: place.geometry.location
   });
 
-  google.maps.event.addListener(marker, 'click', function() {
+  google.maps.event.addListener(marker, 'click', function () {
     infowindow.setContent(place.name);
     infowindow.open(map, this);
   });
@@ -55,22 +58,26 @@ let imageURL;
 
 function printContacts(place, num) {
   if (place.place_id !== null) {
-    //console.log(place);
-    let request = { placeId: place.place_id };
-    service.getDetails(request, function(details, status) {
+    let request = {
+      placeId: place.place_id
+    };
+    service.getDetails(request, function (details, status) {
       if (details !== null) {
         //console.log(details);
-        imageURL = typeof details.photos !== 'undefined' 
-         ? details.photos[0].getUrl({'maxWidth': 1024, 'maxHeight': 1024})
-         : 'https://images.pexels.com/photos/374101/pexels-photo-374101.jpeg';
+        imageURL = typeof details.photos !== 'undefined' ?
+          details.photos[0].getUrl({
+            'maxWidth': 1024,
+            'maxHeight': 1024
+          }) :
+          'https://images.pexels.com/photos/374101/pexels-photo-374101.jpeg';
         let xhr = new XMLHttpRequest();
-        $.ajax( {
-          type:'GET',
-          xhr: function() {
-               return xhr;
+        $.ajax({
+          type: 'GET',
+          xhr: function () {
+            return xhr;
           },
           url: imageURL,
-          success:function() {
+          success: function () {
             let mapObj = {};
             mapObj.name = details.name;
             mapObj.image = xhr.responseURL;
@@ -90,103 +97,103 @@ function printContacts(place, num) {
             } else {
               mapObj.description = "This is a good yoga studio! 12+ styles from stretchy to sweaty,  heated and non-heated, for all levels of practice.";
             }
-            
-            if (num % 9 == 0) { 
+
+            if (num % 9 == 0) {
               mapObj.amenities = [];
               mapObj.amenities.push("Parking");
               mapObj.amenities.push("Locker");
               mapObj.amenities.push("Smoothie Bar");
 
-              mapObj.author = [];
-              mapObj.author.push({});
-              mapObj.author[0]['id'] = "5bd5ec87075c5c1909b7d6d5";
-              mapObj.author[0]['username'] = "Priyanka";
-            } else if (num % 3 == 0) { 
+              mapObj.author = {
+                id: "5bd5ec87075c5c1909b7d6d5",
+                username: "Priyanka"
+              };
+            } else if (num % 3 == 0) {
               mapObj.amenities = [];
               mapObj.amenities.push("Parking");
               mapObj.amenities.push("Locker");
               mapObj.amenities.push("Wifi");
 
-              mapObj.author = [];
-              mapObj.author.push({});
-              mapObj.author[0]['id'] = "5bd5eccd075c5c1909b7d6d6";
-              mapObj.author[0]['username'] = "Alice";
-            } else if (num % 5 == 0) { 
+              mapObj.author = {
+                id: "5bd5eccd075c5c1909b7d6d6",
+                username: "Alice"
+              };
+            } else if (num % 5 == 0) {
               mapObj.amenities = [];
               mapObj.amenities.push("Parking");
               mapObj.amenities.push("Shower");
               mapObj.amenities.push("Locker");
               mapObj.amenities.push("Wifi");
 
-              mapObj.author = [];
-              mapObj.author.push({});
-              mapObj.author[0]['id'] = "5bd5ed2c075c5c1909b7d6d7";
-              mapObj.author[0]['username'] = "Deepika";
-            } else { 
+              mapObj.author = {
+                id: "5bd5ed2c075c5c1909b7d6d7",
+                username: "Deepika"
+              };
+            } else {
               mapObj.amenities = [];
               mapObj.amenities.push("Wifi");
               mapObj.amenities.push("Locker");
               mapObj.amenities.push("Smoothie Bar");
 
-              mapObj.author = [];
-              mapObj.author.push({});
-              mapObj.author[0]['id'] = "5bd5ed82075c5c1909b7d6d8";
-              mapObj.author[0]['username'] = "Lucia";
+              mapObj.author = {
+                id: "5bd5ed82075c5c1909b7d6d8",
+                username: "Lucia"
+              };
             }
 
-            if (num % 10 == 0) { 
+            if (num % 10 == 0) {
               mapObj.classes = [];
               mapObj.classes.push("Hatha Yoga");
               mapObj.classes.push("Hot Yoga");
               mapObj.classes.push("Vinyasa Yoga");
-            } else if (num % 2 == 0) { 
+            } else if (num % 2 == 0) {
               mapObj.classes = [];
               mapObj.classes.push("Hatha Yoga");
               mapObj.classes.push("Bikram Yoga");
               mapObj.classes.push("Vinyasa Yoga");
-            } else if (num % 5 == 0) { 
+            } else if (num % 5 == 0) {
               mapObj.classes = [];
               mapObj.classes.push("Hatha Yoga");
               mapObj.classes.push("Hot Yoga");
               mapObj.classes.push("Prenatal Yoga");
-            } else { 
+            } else {
               mapObj.classes = [];
               mapObj.classes.push("Hot Yoga");
               mapObj.classes.push("Bikram Yoga");
               mapObj.classes.push("Vinyasa Yoga");
             }
 
-            if (num % 10 == 0) { 
+            if (num % 10 == 0) {
               mapObj.beginners = ["Yes"];
-            } else if (num % 3 == 0) { 
+            } else if (num % 3 == 0) {
               mapObj.beginners = ["No"];
-            } else if (num % 4 == 0) { 
+            } else if (num % 4 == 0) {
               mapObj.beginners = ["Yes"];
-            } else { 
+            } else {
               mapObj.beginners = ["No"];
             }
 
-            if (num % 10 == 0) { 
-              mapObj.cost = [12];
-            } else if (num % 3 == 0) { 
-              mapObj.cost = [20];
-            } else if (num % 5 == 0) { 
-              mapObj.cost = [30];
-            } else { 
-              mapObj.cost = [10];
+            if (num % 10 == 0) {
+              mapObj.cost = 12;
+            } else if (num % 3 == 0) {
+              mapObj.cost = 20;
+            } else if (num % 5 == 0) {
+              mapObj.cost = 30;
+            } else {
+              mapObj.cost = 10;
             }
-           
+
             mapObj.location = details.vicinity; //formatted_address;
             mapObj.lat = details.geometry.location.lat();
             mapObj.lng = details.geometry.location.lng();
 
             if (details.reviews !== undefined) {
               mapObj.commentfeed = [];
-              for (var i = 0; i < details.reviews.length - 1; i++) {
+              for (let i = 0; i < details.reviews.length - 1; i++) {
                 mapObj.commentfeed.push({});
                 mapObj.commentfeed[i]['text'] = details.reviews[i + 1].text;
                 mapObj.commentfeed[i]['rating'] = details.reviews[i + 1].rating;
-                mapObj.commentfeed[i]['usernamefeed'] = details.reviews[i + 1].author_name;  
+                mapObj.commentfeed[i]['usernamefeed'] = details.reviews[i + 1].author_name;
               }
             } else {
               mapObj.commentfeed = [];
