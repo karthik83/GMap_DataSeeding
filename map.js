@@ -7,17 +7,9 @@ let geocoder;
 
 function initMap() {
   geocoder = new google.maps.Geocoder();
-  //let pyrmont = {lat: -33.867, lng: 151.195}; //Default
-  //let pyrmont = {lat: 13.08268, lng:  80.270718}; //Chennai, India
-  let pyrmont = {lat: 43.653226, lng:  -79.383184}; //Toronto, ON
-  //let pyrmont = {lat: 43.588864, lng: -79.660531}; //Missisauga, ON
-  //let pyrmont = {lat: 43.8509, lng:  -79.0204};//Ajax
-  //let pyrmont = {lat: 43.998550, lng:  -79.678200};//Clarington
-  //let pyrmont = {lat: 44.280450, lng:  -79.109160};//Brock
-  //let pyrmont = {lat: 43.896080, lng:  -78.865130};//Oshawa
-  var address = "Oakville";
+  let address = "Oakville";
   map = new google.maps.Map(document.getElementById('map'), {
-    center: pyrmont,
+    center: {lat: 43.653226, lng:  -79.383184},
     zoom: 11
   });
     codeAddress(address);
@@ -30,8 +22,8 @@ function codeAddress(address)
     console.log('status: ' + status);
     if (status == google.maps.GeocoderStatus.OK) 
     {
-      console.log('latlng: ' + results[0].geometry.location);
-      //map.setCenter(results[0].geometry.location);//center the map over the result
+      console.log('location & latlng: ' + address + ' ' + results[0].geometry.location);
+      map.setCenter(results[0].geometry.location);//center the map over the result
       infowindow = new google.maps.InfoWindow();
       service = new google.maps.places.PlacesService(map);
       service.textSearch({
