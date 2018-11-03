@@ -1,4 +1,4 @@
-const data = [];
+let data = [];
 
 let map;
 let infowindow;
@@ -6,37 +6,49 @@ let service;
 let geocoder;
 
 function initMap() {
-  geocoder = new google.maps.Geocoder();
-  let address = "Oakville";
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 43.653226, lng:  -79.383184},
     zoom: 11
   });
-    codeAddress(address);
+  //codeAddress();
 }
 
-function codeAddress(address) 
+function codeAddress() 
 {
-  geocoder.geocode( {address:address}, function(results, status) 
-  {
-    console.log('status: ' + status);
-    if (status == google.maps.GeocoderStatus.OK) 
-    {
-      console.log('location & latlng: ' + address + ' ' + results[0].geometry.location);
-      map.setCenter(results[0].geometry.location);//center the map over the result
-      infowindow = new google.maps.InfoWindow();
-      service = new google.maps.places.PlacesService(map);
-      service.textSearch({
-        location: results[0].geometry.location,
-        radius: 500,
-        query: 'yoga'
-      }, callback);
-      console.log(data);
-    } else {
-      console.log('Geocode was not successful for the following reason: ' + status);
-      return null;
-    }
+  //let address = document.getElementById("lname").value;
+  //if (address === "") {
+  //  address = "Toronto";
+  //}
+  geocoder = new google.maps.Geocoder();
+  const addresses = ["Toronto", "Etobicoke", "North York", "Missisauga", "Oakville", "Brampton", "Scarborough, ON", "Milton, ON", "Burlington, ON", "Markham, ON", "Ajax, ON"];
+  let i = 0;
+  addresses.forEach(function(address) {
+    i = i + 1;
+    (function (i) {
+      setTimeout(function () {
+              geocoder.geocode( {address:address}, function(results, status) 
+              {
+                //console.log('status: ' + status);
+                if (status == google.maps.GeocoderStatus.OK) 
+                {
+                  console.log(address + ' loaded');
+                  map.setCenter(results[0].geometry.location);//center the map over the result
+                  infowindow = new google.maps.InfoWindow();
+                  service = new google.maps.places.PlacesService(map);
+                  service.textSearch({
+                    location: results[0].geometry.location,
+                    radius: 500,
+                    query: 'yoga'
+                  }, callback);
+                } else {
+                  console.log('Geocode was not successful for the following reason: ' + status);
+                  return null;
+                }
+              });
+      }, 5000 * i);
+        })(i);
   });
+  console.log(data);
 }
 
 function callback(results, status) {
@@ -52,7 +64,8 @@ function createMarker(place) {
   let placeLoc = place.geometry.location;
   let marker = new google.maps.Marker({
     map: map,
-    position: place.geometry.location
+    position: place.geometry.location,
+    icon: "yoga-24.png"
   });
 
   google.maps.event.addListener(marker, 'click', function () {
@@ -190,7 +203,7 @@ function printContacts(place, num) {
               mapObj.cost = 10;
             }
 
-            mapObj.location = details.vicinity; //formatted_address;
+            mapObj.location = details.formatted_address;
             mapObj.lat = details.geometry.location.lat();
             mapObj.lng = details.geometry.location.lng();
 

@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Google Maps Testing</title>
-    <h1>Google Maps Testing</h1>
+    <title>Google Places - Data Seeding!</title>
+    <h1>Google Places - Data Seeding!</h1>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="map.css">
@@ -10,8 +10,10 @@
     <script src="map.js"></script>
   </head>
   <body>
+    <input type="text" id="lname" hidden>
+    <input type="submit" value="Seed Data!" onclick="codeAddress()">
     <div id="map">map</div>
       <!-- Replace the value of the key parameter with your own API key. -->
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDVNqmxoPpZXHe89d2y12ozPDVjoLAk4hw&libraries=places&callback=initMap" async defer></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_API_KEY&libraries=places&callback=initMap" async defer></script>
   </body>
 </html>
