@@ -4,50 +4,53 @@ let map;
 let infowindow;
 let service;
 let geocoder;
+const query = "yoga";
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 43.653226, lng:  -79.383184},
+    center: {
+      lat: 43.653226,
+      lng: -79.383184
+    },
     zoom: 11
   });
-  //codeAddress();
 }
 
-function codeAddress() 
-{
-  //let address = document.getElementById("lname").value;
-  //if (address === "") {
-  //  address = "Toronto";
-  //}
+function codeAddress() {
   geocoder = new google.maps.Geocoder();
-  const addresses = ["Toronto", "Etobicoke", "North York", "Missisauga", "Oakville", "Brampton", "Scarborough, ON", "Milton, ON", "Burlington, ON", "Markham, ON", "Ajax, ON"];
+  const addresses = [
+    "Toronto, ON",
+    "Mississauga, ON",
+    "Brampton, ON"
+  ];
   let i = 0;
-  addresses.forEach(function(address) {
+  addresses.forEach(function (address) {
     i = i + 1;
     (function (i) {
       setTimeout(function () {
-              geocoder.geocode( {address:address}, function(results, status) 
-              {
-                //console.log('status: ' + status);
-                if (status == google.maps.GeocoderStatus.OK) 
-                {
-                  console.log(address + ' loaded');
-                  map.setCenter(results[0].geometry.location);//center the map over the result
-                  infowindow = new google.maps.InfoWindow();
-                  service = new google.maps.places.PlacesService(map);
-                  service.textSearch({
-                    location: results[0].geometry.location,
-                    radius: 500,
-                    query: 'yoga'
-                  }, callback);
-                } else {
-                  console.log('Geocode was not successful for the following reason: ' + status);
-                  return null;
-                }
-              });
+        geocoder.geocode({
+          address: address
+        }, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            console.log(`${query} seeding complete for ${address}`);
+            map.setCenter(results[0].geometry.location);
+            infowindow = new google.maps.InfoWindow();
+            service = new google.maps.places.PlacesService(map);
+            service.textSearch({
+              location: results[0].geometry.location,
+              radius: 500,
+              query: query
+            }, callback);
+          } else {
+            console.log(`Geocode was not successful: ${status}`);
+            return null;
+          }
+        });
       }, 5000 * i);
-        })(i);
+    })(i);
   });
+  console.log(`After seeding is complete. Right click the array and select "Store as global variable".`);
+  console.log(`Then, use copy(temp1) command in console to copy array to clipboard.`);
   console.log(data);
 }
 
@@ -65,7 +68,7 @@ function createMarker(place) {
   let marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location,
-    icon: "yoga-24.png"
+    icon: `${query}.png`
   });
 
   google.maps.event.addListener(marker, 'click', function () {
@@ -83,7 +86,6 @@ function printContacts(place, num) {
     };
     service.getDetails(request, function (details, status) {
       if (details !== null) {
-        //console.log(details);
         imageURL = typeof details.photos !== 'undefined' ?
           details.photos[0].getUrl({
             'maxWidth': 1024,
